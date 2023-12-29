@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Weather App</title>
+    <script src = "./.secrets/APIKeys.js"></script>
+    <script src = ./script.js defer></script>
+    <link rel = "stylesheet" href = "./style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
+          rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class = "card">
+        <div class = "search">
+            <input type = "text" class = "searchbar" placeholder="Search city">
+            <button class = "inbtn">
+               <span class="material-icons-outlined">
+                search
+                </span>
+            </button>
+        </div>
+        <div class = "weather loading">
+            <h2 class = "city"></h2>
+            <h2 class = "temp"></h2>
+            <div class = "flex">
+                <img src = "https://openweathermap.org/img/wn/04n.png" alt = "" class = "icon"/>
+                <div class = "description">Rainy</div>
+            </div>
+            <div class = "humidity">Humidity: 30%</div>
+            <div class = "wind">5.0 km/h</div>
+        </div>
+    </div>
+</body>
+</html>
