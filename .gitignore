@@ -1,2 +1,2 @@
-# Ignore any folders with secrets
+# Ignore any folders with secrets.
 **/.secrets/
