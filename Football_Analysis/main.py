@@ -67,7 +67,7 @@ def main():
 
   output_frames = camera_movement_estimator.draw_camera_movement(output_frames, camera_movement_per_frame)
 
-  output_frames = speed_distance_estimator.draw_speed_distance(frames, tracks)
+  output_frames = speed_distance_estimator.draw_speed_distance(output_frames, tracks)
 
   save_video(output_frames, 'output_videos/output_video2.avi')
 
