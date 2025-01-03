@@ -16,11 +16,11 @@ import Link from "next/link";
 import { useActionState, useState } from "react";
 
 
-type Platform = "Zoom" | "Teams"
+type Platform = "Zoom Meeting" | "Microsoft Teams"
 
 export default function NewEvent() {
 
-  const [videoPlatform, setPlatform] = useState<Platform>("Zoom")
+  const [videoPlatform, setPlatform] = useState<Platform>("Zoom Meeting")
   const [lastResult, action] = useActionState(createEvent, undefined)
   const [form, fields] = useForm({
     lastResult,
@@ -133,10 +133,10 @@ export default function NewEvent() {
                 <Button
                   type="button"
                   onClick={() => {
-                    setPlatform("Zoom")
+                    setPlatform("Zoom Meeting")
                   }}
                   variant={
-                    videoPlatform ==="Zoom" ? "secondary" : "outline"
+                    videoPlatform ==="Zoom Meeting" ? "secondary" : "outline"
                   }
                   key="Zoom" 
                   className="w-full">
@@ -145,10 +145,10 @@ export default function NewEvent() {
                 <Button
                   type="button"
                   onClick={() => {
-                    setPlatform("Teams")
+                    setPlatform("Microsoft Teams")
                   }}
                   variant={
-                    videoPlatform === "Teams" ? "secondary" : "outline"
+                    videoPlatform === "Microsoft Teams" ? "secondary" : "outline"
                   }
                   key="Teams" 
                   className="w-full">

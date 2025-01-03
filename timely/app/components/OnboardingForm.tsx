@@ -24,7 +24,6 @@ export function OnboardingForm() {
     shouldValidate: 'onBlur',
     shouldRevalidate: 'onInput'
   })
-  console.log("here")
   return (
     <div className="min-h-screen w-screen flex items-center justify-center">
       <Card>

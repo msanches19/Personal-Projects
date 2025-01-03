@@ -20,7 +20,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   availability  Availability[]
-  events        EventTypes[]
+  events        Event[]
  
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -89,14 +89,14 @@ enum Day {
   Sunday
 }
 
-model EventTypes {
+model Event {
   id            String @id @default(cuid())
   title         String
   duration      Int
   url           String
   description   String
   active        Boolean @default(true)
-  videoSoftware String @default("Zoom")
+  videoSoftware String @default("Zoom Meeting")
   createdAt     DateTime @default(now())
   updatedAt     DateTime @default(now())
 

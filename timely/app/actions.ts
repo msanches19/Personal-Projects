@@ -8,6 +8,7 @@ import { EventSchema, onboardingSchema, onboardingValidation, settingsSchema } f
 import { redirect } from "next/navigation"
 import { raw } from "@prisma/client/runtime/library"
 import { revalidatePath } from "next/cache"
+import { nylas } from "./utils/nylas"
 
 export async function onboardingAction(prevState: any, formData: FormData) {
   const session = await checkUser()
@@ -156,7 +157,7 @@ export async function createEvent(prevState: any, formData: FormData) {
     return submission.reply()
   }
 
-  await prisma.eventTypes.create({
+  await prisma.event.create({
     data: {
       title: submission.value.title,
       duration: submission.value.duration,
@@ -168,4 +169,65 @@ export async function createEvent(prevState: any, formData: FormData) {
   })
 
   return redirect("/dashboard")
+}
+
+export async function createMeeting(formData: FormData) {
+  const userData = await prisma.user.findUnique({
+    where: {
+      username: formData.get("username") as string
+    },
+    select: {
+      grantEmail: true,
+      grantId: true
+    }
+  });
+
+  if (!userData) {
+    throw new Error("User not Found")
+  }
+
+  const eventData = await prisma.event.findUnique({
+    where: {
+      id: formData.get("eventId") as string
+    },
+    select: {
+      title: true,
+      description: true,
+    }
+  })
+
+  const date = formData.get("date")
+  const from = formData.get("from")
+  const duration = Number(formData.get("duration"))
+  const fromDateTime = new Date(`${date}T${from}:00`)
+  const untilDateTime = new Date(fromDateTime.getTime() + (duration * 60000))
+
+  const provider = formData.get("provider");
+
+  console.log(provider)
+
+  await nylas.events.create({
+    identifier: userData.grantEmail as string,
+    requestBody: {
+      title: eventData?.title,
+      description: eventData?.description,
+      when: {
+        startTime: Math.floor(fromDateTime.getTime() / 1000),
+        endTime: Math.floor(untilDateTime.getTime() / 1000)
+      },
+      participants: [
+        {
+          name: formData.get("name") as string,
+          email: formData.get("email") as string,
+          status: "yes"
+        }
+      ]
+    },
+    queryParams: {
+      calendarId: userData.grantEmail as string,
+      notifyParticipants: true
+    }
+  })
+
+  return redirect("/success")
 }

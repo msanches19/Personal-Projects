@@ -5,8 +5,9 @@ import prisma from "../utils/db"
 import { DefaultEvents } from "../components/DefaultEvents"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { User2, Users2 } from "lucide-react"
+import { ExternalLink, Link2, Pen, Settings, Trash, User2, Users2 } from "lucide-react"
 import { Switch } from "@/components/ui/switch"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 
 async function getData(userId: string) {
   const data = await prisma.user.findUnique({
@@ -34,7 +35,7 @@ async function getData(userId: string) {
   return data
 }
 
-export default async function DashboardPage() {
+export default async function Dashboard() {
 
   const session = await checkUser()
   const data = await getData(session.user?.id as string)
@@ -64,7 +65,42 @@ export default async function DashboardPage() {
                   className="overflow-hidden shadow rounded-lg border relative"
                   key={item.id}
                 >
-            
+                  <div className="absolute top-2 right-2">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="outline" size="icon">
+                          <Settings className="size-4"/>
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuLabel>
+                          Actions
+                        </DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuGroup>
+                          <DropdownMenuItem asChild className="cursor-pointer">
+                            <Link href={`/${data.username}/${item.url}`}>
+                              <ExternalLink className="mr-2 size-4"/>
+                              Preview
+                            </Link>
+                          </DropdownMenuItem>
+                          <DropdownMenuItem>
+                            <Link2 className="mr-2 size-4" />
+                            Copy
+                          </DropdownMenuItem>
+                          <DropdownMenuItem>
+                            <Pen className="size-4 mr-2" />
+                            Edit
+                          </DropdownMenuItem>
+                        </DropdownMenuGroup>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem>
+                          <Trash className="size-4 mr-2" />
+                          Delete
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
                   <Link href="/" className="flex items-center p-5">
                     <div className="flex shrink-0">
                       <Users2 className="size-6"/>
